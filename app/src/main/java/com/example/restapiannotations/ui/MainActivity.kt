@@ -18,5 +18,8 @@ class MainActivity : AppCompatActivity() {
         binding.btnGetPost.setOnClickListener {
             startActivity(Intent(this, GetPostActivity::class.java))
         }
+        binding.btnGetComments.setOnClickListener {
+            startActivity(Intent(this, GetCommentActivity::class.java))
+        }
     }
 }
