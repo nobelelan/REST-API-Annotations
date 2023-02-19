@@ -21,5 +21,8 @@ class MainActivity : AppCompatActivity() {
         binding.btnGetComments.setOnClickListener {
             startActivity(Intent(this, GetCommentActivity::class.java))
         }
+        binding.btnGetCommentsQuery.setOnClickListener {
+            startActivity(Intent(this, GetCommentQueryActivity::class.java))
+        }
     }
 }

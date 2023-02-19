@@ -9,6 +9,7 @@ import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface PostAPI {
 
@@ -17,6 +18,10 @@ interface PostAPI {
 
     @GET("/posts/{id}/comments")
     suspend fun getComments(@Path("id") postId: Int): Response<List<Comment>>
+
+    @GET("/comments")
+    suspend fun getCommentsQuery(@Query("postId") postId: Int): Response<List<Comment>>
+
     @POST("/posts")
     suspend fun createPost(): Response<Post>
 
