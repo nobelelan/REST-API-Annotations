@@ -36,6 +36,10 @@ class CreatePostActivity : AppCompatActivity() {
                 val body = edtBody.text.toString()
                 createPost(Post(userId = userId.toInt(), title = title, body = body))
             }
+
+            postViewModel.createPostCode.observe(this, Observer {
+                Toast.makeText(this@CreatePostActivity, it.data.toString(), Toast.LENGTH_SHORT).show()
+            })
         }
     }
 

@@ -36,6 +36,10 @@ class PostViewModel(private val postRepository: PostRepository): ViewModel() {
     val createPost: LiveData<Resource<Post>>
         get() = _createPost
 
+    private val _createPostCode = MutableLiveData<Resource<Int>>()
+    val createPostCode: LiveData<Resource<Int>>
+        get() = _createPostCode
+
     fun getPosts(){
         _getPosts.value = Resource.Loading()
         viewModelScope.launch {
@@ -124,6 +128,7 @@ class PostViewModel(private val postRepository: PostRepository): ViewModel() {
                 if (response.isSuccessful){
                     response.body()?.let {
                         _createPost.value = Resource.Success(it)
+                        _createPostCode.value = Resource.Success(response.code())
                     }
                 }
             }catch (e: Exception){
