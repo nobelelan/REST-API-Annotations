@@ -44,11 +44,23 @@ class PostViewModel(private val postRepository: PostRepository): ViewModel() {
     val createPostFieldMap: LiveData<Resource<Post>>
         get() = _createPostFieldMap
 
+    private val _updatePost = MutableLiveData<Resource<Post>>()
+    val updatePost: LiveData<Resource<Post>>
+        get() = _updatePost
+
+    private val _patchPost = MutableLiveData<Resource<Post>>()
+    val patchPost: LiveData<Resource<Post>>
+        get() = _patchPost
+
+    private val _deletePost = MutableLiveData<Resource<Unit>>()
+    val deletePost: LiveData<Resource<Unit>>
+        get() = _deletePost
 
 
-    private val _createPostCode = MutableLiveData<Resource<Int>>()
-    val createPostCode: LiveData<Resource<Int>>
-        get() = _createPostCode
+
+    private val _postCode = MutableLiveData<Resource<Int>>()
+    val postCode: LiveData<Resource<Int>>
+        get() = _postCode
 
     fun getPosts(){
         _getPosts.value = Resource.Loading()
@@ -138,7 +150,7 @@ class PostViewModel(private val postRepository: PostRepository): ViewModel() {
                 if (response.isSuccessful){
                     response.body()?.let {
                         _createPost.value = Resource.Success(it)
-                        _createPostCode.value = Resource.Success(response.code())
+                        _postCode.value = Resource.Success(response.code())
                     }
                 }
             }catch (e: Exception){
@@ -155,7 +167,7 @@ class PostViewModel(private val postRepository: PostRepository): ViewModel() {
                 if (response.isSuccessful){
                     response.body()?.let {
                         _createPostField.value = Resource.Success(it)
-                        _createPostCode.value = Resource.Success(response.code())
+                        _postCode.value = Resource.Success(response.code())
                     }
                 }
             }catch (e: Exception){
@@ -172,11 +184,62 @@ class PostViewModel(private val postRepository: PostRepository): ViewModel() {
                 if (response.isSuccessful){
                     response.body()?.let {
                         _createPostFieldMap.value = Resource.Success(it)
-                        _createPostCode.value = Resource.Success(response.code())
+                        _postCode.value = Resource.Success(response.code())
                     }
                 }
             }catch (e: Exception){
                 _createPostFieldMap.value = Resource.Error(e.message.toString())
+            }
+        }
+    }
+
+    fun updatePost(id: Int, post: Post){
+        _updatePost.value = Resource.Loading()
+        viewModelScope.launch {
+            try {
+                val response = postRepository.updatePost(id, post)
+                if (response.isSuccessful){
+                    response.body()?.let {
+                        _updatePost.value = Resource.Success(it)
+                        _postCode.value = Resource.Success(response.code())
+                    }
+                }
+            }catch (e: Exception){
+                _updatePost.value = Resource.Error(e.message.toString())
+            }
+        }
+    }
+
+    fun patchPost(id: Int, post: Post){
+        _patchPost.value = Resource.Loading()
+        viewModelScope.launch {
+            try {
+                val response = postRepository.patchPost(id, post)
+                if (response.isSuccessful){
+                    response.body()?.let {
+                        _patchPost.value = Resource.Success(it)
+                        _postCode.value = Resource.Success(response.code())
+                    }
+                }
+            }catch (e: Exception){
+                _patchPost.value = Resource.Error(e.message.toString())
+            }
+        }
+    }
+
+    fun deletePost(id: Int){
+        _deletePost.value = Resource.Loading()
+        viewModelScope.launch {
+            try {
+                val response = postRepository.deletePost(id)
+                if (response.isSuccessful){
+                    response.body()?.let {
+                        _deletePost.value = Resource.Success(it)
+                        _postCode.value = Resource.Success(response.code())
+                    }
+                }
+            }catch (e: Exception){
+                _deletePost.value = Resource.Error(e.message.toString())
             }
         }
     }

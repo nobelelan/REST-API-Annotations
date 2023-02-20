@@ -38,5 +38,14 @@ class MainActivity : AppCompatActivity() {
         binding.btnCreatePostFieldMap.setOnClickListener {
             startActivity(Intent(this, CreatePostFieldMapActivity::class.java))
         }
+        binding.btnUpdatePost.setOnClickListener {
+            startActivity(Intent(this, UpdatePostActivity::class.java))
+        }
+        binding.btnPatchPost.setOnClickListener {
+            startActivity(Intent(this, PatchPostActivity::class.java))
+        }
+        binding.btnDeletePost.setOnClickListener {
+            startActivity(Intent(this, DeletePostActivity::class.java))
+        }
     }
 }

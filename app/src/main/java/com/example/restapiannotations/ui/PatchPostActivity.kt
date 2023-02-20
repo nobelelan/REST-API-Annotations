@@ -6,42 +6,47 @@ import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.example.restapiannotations.databinding.ActivityCreatePostBinding
-import com.example.restapiannotations.databinding.ActivityCreatePostFieldBinding
-import com.example.restapiannotations.databinding.ActivityCreatePostFieldMapBinding
+import com.example.restapiannotations.databinding.ActivityPatchPostBinding
 import com.example.restapiannotations.model.Post
 import com.example.restapiannotations.repository.PostRepository
 import com.example.restapiannotations.util.Resource
 import com.example.restapiannotations.viewmodel.PostViewModel
 import com.example.restapiannotations.viewmodel.PostViewModelProviderFactory
 
-class CreatePostFieldMapActivity : AppCompatActivity() {
+class PatchPostActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityCreatePostFieldMapBinding
+    private lateinit var binding: ActivityPatchPostBinding
 
     private lateinit var postViewModel: PostViewModel
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityCreatePostFieldMapBinding.inflate(layoutInflater)
+        binding = ActivityPatchPostBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         val postRepository = PostRepository()
         val postViewModelProviderFactory = PostViewModelProviderFactory(postRepository)
         postViewModel = ViewModelProvider(this, postViewModelProviderFactory)[PostViewModel::class.java]
 
-        binding.btnPost.setOnClickListener {
-            createPost()
+        binding.btnPatch.setOnClickListener {
+            binding.apply {
+                val userId = edtUserId.text.toString()
+                val id = edtId.text.toString()
+                val title = edtTitle.text.toString()
+                val body = edtBody.text.toString()
+                val post = Post(userId = userId.toInt(), title = title, body = body)
+                patchPost(id.toInt(), post)
+            }
 
             postViewModel.postCode.observe(this, Observer {
-                Toast.makeText(this@CreatePostFieldMapActivity, it.data.toString(), Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@PatchPostActivity, it.data.toString(), Toast.LENGTH_SHORT).show()
             })
         }
     }
 
-    private fun createPost() {
-        postViewModel.createPostFieldMap.observe(this, Observer { response->
+    private fun patchPost(id: Int, post: Post) {
+        postViewModel.patchPost.observe(this, Observer { response->
             when(response){
                 is Resource.Loading -> {
                     binding.pbCreatePost.visibility = View.VISIBLE
@@ -60,10 +65,6 @@ class CreatePostFieldMapActivity : AppCompatActivity() {
                 }
             }
         })
-        val fields = HashMap<String, String>()
-        fields["userId"] = binding.edtUserId.text.toString()
-        fields["title"] = binding.edtTitle.text.toString()
-        fields["body"] = binding.edtBody.text.toString()
-        postViewModel.createPostFieldMap(fields)
+        postViewModel.patchPost(id, post)
     }
 }

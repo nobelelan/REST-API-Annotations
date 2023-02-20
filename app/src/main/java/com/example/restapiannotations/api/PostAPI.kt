@@ -49,20 +49,21 @@ interface PostAPI {
     @POST("/posts")
     suspend fun createPostFieldMap(@FieldMap fields: Map<String, String>): Response<Post>
 
-    @PUT("/posts/1")
-    suspend fun updatePost(): Response<Post>
+    @PUT("/posts/{id}")
+    suspend fun updatePost(@Path("id") id: Int, @Body post: Post): Response<Post>
 
-    @PATCH("/posts/1")
-    suspend fun patchPost(): Response<Post>
+    @PATCH("/posts/{id}")
+    suspend fun patchPost(@Path("id") id: Int, @Body post: Post): Response<Post>
 
-    @DELETE("/posts/1")
-    suspend fun deletePost(): Response<Post>
+    @DELETE("/posts/{id}")
+    suspend fun deletePost(@Path("id") id: Int): Response<Unit>
 }
 
 // NOTES FOR MYSELF
-// 1. I can directly put the full url of an API, this will override the base url, Applicable for Url too
+// 1. I can directly put the full url of an API, this will override the base url, Applicable for @Url too
 // 2. I can put as many Query Parameters as I want, Path Parameters are also similar
-// 3. When we send request will full Url, we should end the url with '/'
+// 3. When we send request with full Url, we should end the url with '/'
 // 4. For other formats like string/xml, we need to use other converters instead of Gson
 // 5. FormUrlEncoded is used to form a url like putting the &/space in the correct place,
 //      generally used in HTML forms, suitable for key-value pairs
+// 6. @PUT will replace the whole object while @PATCH only replaces the fields we pass over

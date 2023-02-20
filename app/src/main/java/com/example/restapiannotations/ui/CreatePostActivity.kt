@@ -37,7 +37,7 @@ class CreatePostActivity : AppCompatActivity() {
                 createPost(Post(userId = userId.toInt(), title = title, body = body))
             }
 
-            postViewModel.createPostCode.observe(this, Observer {
+            postViewModel.postCode.observe(this, Observer {
                 Toast.makeText(this@CreatePostActivity, it.data.toString(), Toast.LENGTH_SHORT).show()
             })
         }

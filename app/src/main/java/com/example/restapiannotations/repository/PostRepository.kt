@@ -24,4 +24,10 @@ class PostRepository {
     ) = RetrofitInstance.api.createPostField(userId, title, body)
 
     suspend fun createPostFieldMap(fields: Map<String, String>) = RetrofitInstance.api.createPostFieldMap(fields)
+
+    suspend fun updatePost(id: Int, post: Post) = RetrofitInstance.api.updatePost(id, post)
+
+    suspend fun patchPost(id: Int, post: Post) = RetrofitInstance.api.patchPost(id, post)
+
+    suspend fun deletePost(id: Int) = RetrofitInstance.api.deletePost(id)
 }

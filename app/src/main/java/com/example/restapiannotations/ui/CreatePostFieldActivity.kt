@@ -30,20 +30,14 @@ class CreatePostFieldActivity : AppCompatActivity() {
         postViewModel = ViewModelProvider(this, postViewModelProviderFactory)[PostViewModel::class.java]
 
         binding.btnPost.setOnClickListener {
-            binding.apply {
-                val userId = edtUserId.text.toString()
-                val title = edtTitle.text.toString()
-                val body = edtBody.text.toString()
-                createPost(Post(userId = userId.toInt(), title = title, body = body))
-            }
-
-            postViewModel.createPostCode.observe(this, Observer {
+            createPost()
+            postViewModel.postCode.observe(this, Observer {
                 Toast.makeText(this@CreatePostFieldActivity, it.data.toString(), Toast.LENGTH_SHORT).show()
             })
         }
     }
 
-    private fun createPost(post: Post) {
+    private fun createPost() {
         postViewModel.createPostField.observe(this, Observer { response->
             when(response){
                 is Resource.Loading -> {

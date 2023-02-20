@@ -7,63 +7,55 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.restapiannotations.databinding.ActivityCreatePostBinding
-import com.example.restapiannotations.databinding.ActivityCreatePostFieldBinding
-import com.example.restapiannotations.databinding.ActivityCreatePostFieldMapBinding
+import com.example.restapiannotations.databinding.ActivityDeletePostBinding
+import com.example.restapiannotations.databinding.ActivityUpdatePostBinding
 import com.example.restapiannotations.model.Post
 import com.example.restapiannotations.repository.PostRepository
 import com.example.restapiannotations.util.Resource
 import com.example.restapiannotations.viewmodel.PostViewModel
 import com.example.restapiannotations.viewmodel.PostViewModelProviderFactory
 
-class CreatePostFieldMapActivity : AppCompatActivity() {
+class DeletePostActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityCreatePostFieldMapBinding
+    private lateinit var binding: ActivityDeletePostBinding
 
     private lateinit var postViewModel: PostViewModel
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityCreatePostFieldMapBinding.inflate(layoutInflater)
+        binding = ActivityDeletePostBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         val postRepository = PostRepository()
         val postViewModelProviderFactory = PostViewModelProviderFactory(postRepository)
         postViewModel = ViewModelProvider(this, postViewModelProviderFactory)[PostViewModel::class.java]
 
-        binding.btnPost.setOnClickListener {
-            createPost()
+        binding.btnDelete.setOnClickListener {
+            val id = binding.edtId.text.toString()
+            deletePost(id.toInt())
 
             postViewModel.postCode.observe(this, Observer {
-                Toast.makeText(this@CreatePostFieldMapActivity, it.data.toString(), Toast.LENGTH_SHORT).show()
+                binding.txtCode.text = it.data.toString()
             })
         }
     }
 
-    private fun createPost() {
-        postViewModel.createPostFieldMap.observe(this, Observer { response->
+    private fun deletePost(id: Int) {
+        postViewModel.deletePost.observe(this, Observer { response->
             when(response){
                 is Resource.Loading -> {
-                    binding.pbCreatePost.visibility = View.VISIBLE
+                    binding.pbDeletePost.visibility = View.VISIBLE
                 }
                 is Resource.Error -> {
-                    binding.pbCreatePost.visibility = View.GONE
+                    binding.pbDeletePost.visibility = View.GONE
                     Toast.makeText(this, "Something went wrong!", Toast.LENGTH_SHORT).show()
                 }
                 is Resource.Success -> {
-                    binding.pbCreatePost.visibility = View.GONE
-                    binding.apply {
-                        txtUserId.text = response.data?.userId.toString()
-                        txtTitle.text = response.data?.title
-                        txtBody.text = response.data?.body
-                    }
+                    binding.pbDeletePost.visibility = View.GONE
                 }
             }
         })
-        val fields = HashMap<String, String>()
-        fields["userId"] = binding.edtUserId.text.toString()
-        fields["title"] = binding.edtTitle.text.toString()
-        fields["body"] = binding.edtBody.text.toString()
-        postViewModel.createPostFieldMap(fields)
+        postViewModel.deletePost(id)
     }
 }
