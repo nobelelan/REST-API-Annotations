@@ -3,7 +3,6 @@ package com.example.restapiannotations.ui
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.restapiannotations.R
 import com.example.restapiannotations.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -23,6 +22,9 @@ class MainActivity : AppCompatActivity() {
         }
         binding.btnGetCommentsQuery.setOnClickListener {
             startActivity(Intent(this, GetCommentQueryActivity::class.java))
+        }
+        binding.btnGetCommentsQueryMap.setOnClickListener {
+            startActivity(Intent(this, GetPostQueryMapActivity::class.java))
         }
     }
 }
