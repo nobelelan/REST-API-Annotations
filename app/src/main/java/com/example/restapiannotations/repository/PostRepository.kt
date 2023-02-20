@@ -11,4 +11,6 @@ class PostRepository {
     suspend fun getCommentsQuery(postId: Int) = RetrofitInstance.api.getCommentsQuery(postId)
 
     suspend fun getCommentsQueryMap(parameters: Map<String, String>) = RetrofitInstance.api.getCommentsQueryMap(parameters)
+
+    suspend fun getCommentsOnUrl(url: String) = RetrofitInstance.api.getCommentsOnQuery(url)
 }

@@ -26,5 +26,8 @@ class MainActivity : AppCompatActivity() {
         binding.btnGetCommentsQueryMap.setOnClickListener {
             startActivity(Intent(this, GetPostQueryMapActivity::class.java))
         }
+        binding.btnGetCommentsUrl.setOnClickListener {
+            startActivity(Intent(this, GetCommentUrlActivity::class.java))
+        }
     }
 }

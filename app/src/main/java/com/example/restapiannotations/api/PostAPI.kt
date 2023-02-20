@@ -11,6 +11,7 @@ import retrofit2.http.PUT
 import retrofit2.http.Path
 import retrofit2.http.Query
 import retrofit2.http.QueryMap
+import retrofit2.http.Url
 
 interface PostAPI {
 
@@ -25,6 +26,9 @@ interface PostAPI {
 
     @GET("/posts")
     suspend fun getCommentsQueryMap(@QueryMap parameters: Map<String, String>): Response<List<Post>>
+
+    @GET
+    suspend fun getCommentsOnQuery(@Url url: String): Response<List<Comment>>
 
     @POST("/posts")
     suspend fun createPost(): Response<Post>
