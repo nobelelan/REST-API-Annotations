@@ -32,6 +32,10 @@ class PostViewModel(private val postRepository: PostRepository): ViewModel() {
     val getCommentsOnUrl: LiveData<Resource<List<Comment>>>
         get() = _getCommentsOnUrl
 
+    private val _createPost = MutableLiveData<Resource<Post>>()
+    val createPost: LiveData<Resource<Post>>
+        get() = _createPost
+
     fun getPosts(){
         _getPosts.value = Resource.Loading()
         viewModelScope.launch {
@@ -108,6 +112,22 @@ class PostViewModel(private val postRepository: PostRepository): ViewModel() {
                 }
             }catch (e: Exception){
                 _getCommentsOnUrl.value = Resource.Error(e.message.toString())
+            }
+        }
+    }
+
+    fun createPost(post: Post){
+        _createPost.value = Resource.Loading()
+        viewModelScope.launch {
+            try {
+                val response = postRepository.createPost(post)
+                if (response.isSuccessful){
+                    response.body()?.let {
+                        _createPost.value = Resource.Success(it)
+                    }
+                }
+            }catch (e: Exception){
+                _createPost.value = Resource.Error(e.message.toString())
             }
         }
     }

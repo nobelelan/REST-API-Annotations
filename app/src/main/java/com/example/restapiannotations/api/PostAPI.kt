@@ -3,6 +3,7 @@ package com.example.restapiannotations.api
 import com.example.restapiannotations.model.Comment
 import com.example.restapiannotations.model.Post
 import retrofit2.Response
+import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.PATCH
@@ -31,7 +32,7 @@ interface PostAPI {
     suspend fun getCommentsOnQuery(@Url url: String): Response<List<Comment>>
 
     @POST("/posts")
-    suspend fun createPost(): Response<Post>
+    suspend fun createPost(@Body post: Post): Response<Post>
 
     @PUT("/posts/1")
     suspend fun updatePost(): Response<Post>
@@ -42,3 +43,9 @@ interface PostAPI {
     @DELETE("/posts/1")
     suspend fun deletePost(): Response<Post>
 }
+
+// NOTES FOR MYSELF
+// 1. I can directly put the full url of an API, this will override the base url, Applicable for Url too
+// 2. I can put as many Query Parameters as I want, Path Parameters are also similar
+// 3. When we send request will full Url, we should end the url with '/'
+// 4. For other formats like string/xml, we need to use other converters instead of Gson

@@ -1,6 +1,7 @@
 package com.example.restapiannotations.repository
 
 import com.example.restapiannotations.api.RetrofitInstance
+import com.example.restapiannotations.model.Post
 
 class PostRepository {
 
@@ -13,4 +14,6 @@ class PostRepository {
     suspend fun getCommentsQueryMap(parameters: Map<String, String>) = RetrofitInstance.api.getCommentsQueryMap(parameters)
 
     suspend fun getCommentsOnUrl(url: String) = RetrofitInstance.api.getCommentsOnQuery(url)
+
+    suspend fun createPost(post: Post) = RetrofitInstance.api.createPost(post)
 }
