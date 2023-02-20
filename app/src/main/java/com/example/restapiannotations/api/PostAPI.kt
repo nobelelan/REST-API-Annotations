@@ -5,6 +5,9 @@ import com.example.restapiannotations.model.Post
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
+import retrofit2.http.Field
+import retrofit2.http.FieldMap
+import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.PATCH
 import retrofit2.http.POST
@@ -34,6 +37,18 @@ interface PostAPI {
     @POST("/posts")
     suspend fun createPost(@Body post: Post): Response<Post>
 
+    @FormUrlEncoded
+    @POST("/posts")
+    suspend fun createPostField(
+        @Field("userId") userId: Int,
+        @Field("title") title: String,
+        @Field("body") body: String
+    ): Response<Post>
+
+    @FormUrlEncoded
+    @POST("/posts")
+    suspend fun createPostFieldMap(@FieldMap fields: Map<String, String>): Response<Post>
+
     @PUT("/posts/1")
     suspend fun updatePost(): Response<Post>
 
@@ -49,3 +64,5 @@ interface PostAPI {
 // 2. I can put as many Query Parameters as I want, Path Parameters are also similar
 // 3. When we send request will full Url, we should end the url with '/'
 // 4. For other formats like string/xml, we need to use other converters instead of Gson
+// 5. FormUrlEncoded is used to form a url like putting the &/space in the correct place,
+//      generally used in HTML forms, suitable for key-value pairs

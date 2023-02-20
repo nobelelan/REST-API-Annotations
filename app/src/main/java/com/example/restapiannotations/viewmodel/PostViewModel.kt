@@ -36,6 +36,16 @@ class PostViewModel(private val postRepository: PostRepository): ViewModel() {
     val createPost: LiveData<Resource<Post>>
         get() = _createPost
 
+    private val _createPostField = MutableLiveData<Resource<Post>>()
+    val createPostField: LiveData<Resource<Post>>
+        get() = _createPostField
+
+    private val _createPostFieldMap = MutableLiveData<Resource<Post>>()
+    val createPostFieldMap: LiveData<Resource<Post>>
+        get() = _createPostFieldMap
+
+
+
     private val _createPostCode = MutableLiveData<Resource<Int>>()
     val createPostCode: LiveData<Resource<Int>>
         get() = _createPostCode
@@ -133,6 +143,40 @@ class PostViewModel(private val postRepository: PostRepository): ViewModel() {
                 }
             }catch (e: Exception){
                 _createPost.value = Resource.Error(e.message.toString())
+            }
+        }
+    }
+
+    fun createPostField(userId: Int, title: String, body: String){
+        _createPostField.value = Resource.Loading()
+        viewModelScope.launch {
+            try {
+                val response = postRepository.createPostField(userId, title, body)
+                if (response.isSuccessful){
+                    response.body()?.let {
+                        _createPostField.value = Resource.Success(it)
+                        _createPostCode.value = Resource.Success(response.code())
+                    }
+                }
+            }catch (e: Exception){
+                _createPostField.value = Resource.Error(e.message.toString())
+            }
+        }
+    }
+
+    fun createPostFieldMap(fields: Map<String, String>){
+        _createPostFieldMap.value = Resource.Loading()
+        viewModelScope.launch {
+            try {
+                val response = postRepository.createPostFieldMap(fields)
+                if (response.isSuccessful){
+                    response.body()?.let {
+                        _createPostFieldMap.value = Resource.Success(it)
+                        _createPostCode.value = Resource.Success(response.code())
+                    }
+                }
+            }catch (e: Exception){
+                _createPostFieldMap.value = Resource.Error(e.message.toString())
             }
         }
     }

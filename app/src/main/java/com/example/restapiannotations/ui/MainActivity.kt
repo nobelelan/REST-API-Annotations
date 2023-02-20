@@ -29,8 +29,14 @@ class MainActivity : AppCompatActivity() {
         binding.btnGetCommentsUrl.setOnClickListener {
             startActivity(Intent(this, GetCommentUrlActivity::class.java))
         }
-        binding.btnPostPost.setOnClickListener {
+        binding.btnCreatePost.setOnClickListener {
             startActivity(Intent(this, CreatePostActivity::class.java))
+        }
+        binding.btnCreatePostField.setOnClickListener {
+            startActivity(Intent(this, CreatePostFieldActivity::class.java))
+        }
+        binding.btnCreatePostFieldMap.setOnClickListener {
+            startActivity(Intent(this, CreatePostFieldMapActivity::class.java))
         }
     }
 }

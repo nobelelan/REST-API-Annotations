@@ -16,4 +16,12 @@ class PostRepository {
     suspend fun getCommentsOnUrl(url: String) = RetrofitInstance.api.getCommentsOnQuery(url)
 
     suspend fun createPost(post: Post) = RetrofitInstance.api.createPost(post)
+
+    suspend fun createPostField(
+        userId: Int,
+        title: String,
+        body: String
+    ) = RetrofitInstance.api.createPostField(userId, title, body)
+
+    suspend fun createPostFieldMap(fields: Map<String, String>) = RetrofitInstance.api.createPostFieldMap(fields)
 }
