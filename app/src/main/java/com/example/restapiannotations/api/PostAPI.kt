@@ -61,9 +61,10 @@ interface PostAPI {
 
 // NOTES FOR MYSELF
 // 1. I can directly put the full url of an API, this will override the base url, Applicable for @Url too
-// 2. I can put as many Query Parameters as I want, Path Parameters are also similar
+// 2. I can put as many Query Parameters as I want, Same goes for Path Parameters
 // 3. When we send request with full Url, we should end the url with '/'
 // 4. For other formats like string/xml, we need to use other converters instead of Gson
 // 5. FormUrlEncoded is used to form a url like putting the &/space in the correct place,
 //      generally used in HTML forms, suitable for key-value pairs
 // 6. @PUT will replace the whole object while @PATCH only replaces the fields we pass over
+// 7. If I want to pass variable number of dynamic header, I can use @HeaderMap
