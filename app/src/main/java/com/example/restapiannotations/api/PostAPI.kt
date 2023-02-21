@@ -9,6 +9,8 @@ import retrofit2.http.Field
 import retrofit2.http.FieldMap
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
+import retrofit2.http.Header
+import retrofit2.http.Headers
 import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.PUT
@@ -50,11 +52,12 @@ interface PostAPI {
     suspend fun createPostFieldMap(@FieldMap fields: Map<String, String>): Response<Post>
 
     @PUT("/posts/{id}")
-    suspend fun updatePost(@Path("id") id: Int, @Body post: Post): Response<Post>
+    suspend fun updatePost(@Header("Dynamic-Header") header: String,@Path("id") id: Int, @Body post: Post): Response<Post>
 
     @PATCH("/posts/{id}")
     suspend fun patchPost(@Path("id") id: Int, @Body post: Post): Response<Post>
 
+    @Headers("Static-Header1: 789", "Static-Header2: 101")
     @DELETE("/posts/{id}")
     suspend fun deletePost(@Path("id") id: Int): Response<Unit>
 }

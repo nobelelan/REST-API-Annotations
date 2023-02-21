@@ -66,6 +66,6 @@ class UpdatePostActivity : AppCompatActivity() {
                 }
             }
         })
-        postViewModel.updatePost(id, post)
+        postViewModel.updatePost("909", id, post)
     }
 }

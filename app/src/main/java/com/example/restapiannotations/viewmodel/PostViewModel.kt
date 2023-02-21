@@ -193,11 +193,11 @@ class PostViewModel(private val postRepository: PostRepository): ViewModel() {
         }
     }
 
-    fun updatePost(id: Int, post: Post){
+    fun updatePost(header: String, id: Int, post: Post){
         _updatePost.value = Resource.Loading()
         viewModelScope.launch {
             try {
-                val response = postRepository.updatePost(id, post)
+                val response = postRepository.updatePost(header, id, post)
                 if (response.isSuccessful){
                     response.body()?.let {
                         _updatePost.value = Resource.Success(it)
